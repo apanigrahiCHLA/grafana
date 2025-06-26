@@ -253,7 +253,7 @@ export function TableNG(props: TableNGProps) {
         const cellInspect = Boolean(field.config.custom?.inspect);
         const showFilters = Boolean(field.config.filterable && onCellFilterAdded != null);
         const showActions = cellInspect || showFilters;
-        const width = w[i];
+        const columnWidth = w[i];
         const frame = data;
 
         // helps us avoid string cx and emotion per-cell
@@ -269,7 +269,7 @@ export function TableNG(props: TableNGProps) {
           field,
           key: displayName,
           name: displayName,
-          width,
+          width: columnWidth,
           headerCellClass,
           renderCell: (props: RenderCellProps<TableRow, TableSummaryRow>): JSX.Element => {
             // TODO: once per row
@@ -292,7 +292,7 @@ export function TableNG(props: TableNGProps) {
                   rowIdx,
                   theme,
                   value,
-                  width,
+                  width: columnWidth,
                   cellInspect,
                   showFilters,
                 })}
@@ -662,9 +662,9 @@ const getGridStyles = (
   }),
   gridNested: css({
     height: '100%',
-    width: `calc(100% - ${COLUMN.EXPANDER_WIDTH - 1}px)`,
+    width: `calc(100% - ${COLUMN.EXPANDER_WIDTH - TABLE.CELL_PADDING * 2 - 1}px)`,
     overflow: 'visible',
-    marginLeft: COLUMN.EXPANDER_WIDTH - 1,
+    marginLeft: COLUMN.EXPANDER_WIDTH - TABLE.CELL_PADDING - 1,
   }),
   cellNested: css({
     '&[aria-selected=true]': {
