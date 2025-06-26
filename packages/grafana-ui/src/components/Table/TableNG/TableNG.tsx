@@ -73,6 +73,7 @@ export function TableNG(props: TableNGProps) {
     replaceVariables,
     showTypeIcons,
     structureRev,
+    transparent,
     width,
   } = props;
 
@@ -80,7 +81,9 @@ export function TableNG(props: TableNGProps) {
   const styles = useStyles2(getGridStyles, {
     enablePagination,
     noHeader,
+    transparent,
   });
+
   const panelContext = usePanelContext();
 
   const hasHeader = !noHeader;
@@ -632,11 +635,11 @@ const renderCellFactory =
 
 const getGridStyles = (
   theme: GrafanaTheme2,
-  { enablePagination, noHeader }: { enablePagination?: boolean; noHeader?: boolean }
+  { enablePagination, noHeader, transparent }: { enablePagination?: boolean; noHeader?: boolean; transparent?: boolean }
 ) => ({
   grid: css({
-    '--rdg-background-color': theme.colors.background.primary,
-    '--rdg-header-background-color': theme.colors.background.primary,
+    '--rdg-background-color': transparent ? theme.colors.background.canvas : theme.colors.background.primary,
+    '--rdg-header-background-color': transparent ? theme.colors.background.canvas : theme.colors.background.primary,
     '--rdg-border-color': theme.isDark ? '#282b30' : '#ebebec',
     '--rdg-color': theme.colors.text.primary,
 
