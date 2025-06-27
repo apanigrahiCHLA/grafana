@@ -72,17 +72,19 @@ func (nps *NotificationPolicyService) UpdatePolicyTree(ctx context.Context, orgI
 		return definitions.Route{}, "", err
 	}
 
-	err = nps.checkOptimisticConcurrency(*revision.Config.AlertmanagerConfig.Route, p, version, "update")
-	if err != nil {
-		return definitions.Route{}, "", err
-	}
-
 	// check that provenance is not changed in an invalid way
 	storedProvenance, err := nps.provenanceStore.GetProvenance(ctx, &tree, orgID)
 	if err != nil {
 		return definitions.Route{}, "", err
 	}
 	if err := nps.validator(storedProvenance, p); err != nil {
+		return definitions.Route{}, "", err
+	}
+
+	revision.Config.AlertmanagerConfig.Route.Provenance = definitions.Provenance(storedProvenance)
+
+	err = nps.checkOptimisticConcurrency(*revision.Config.AlertmanagerConfig.Route, p, version, "update")
+	if err != nil {
 		return definitions.Route{}, "", err
 	}
 
@@ -277,7 +279,6 @@ func writeToHash(sum hash.Hash, r *definitions.Route) {
 	writeDuration(r.GroupWait)
 	writeDuration(r.GroupInterval)
 	writeDuration(r.RepeatInterval)
-	writeString(string(r.Provenance))
 	for _, route := range r.Routes {
 		writeToHash(sum, route)
 	}
