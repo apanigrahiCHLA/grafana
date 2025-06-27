@@ -78,6 +78,7 @@ export function TableNG(props: TableNGProps) {
   } = props;
 
   const theme = useTheme2();
+  console.log(theme);
   const styles = useStyles2(getGridStyles, {
     enablePagination,
     noHeader,
@@ -640,11 +641,12 @@ const getGridStyles = (
   grid: css({
     '--rdg-background-color': transparent ? theme.colors.background.canvas : theme.colors.background.primary,
     '--rdg-header-background-color': transparent ? theme.colors.background.canvas : theme.colors.background.primary,
-    '--rdg-border-color': theme.isDark ? '#282b30' : '#ebebec',
+    '--rdg-border-color': theme.colors.border.weak,
     '--rdg-color': theme.colors.text.primary,
 
     // note: this cannot have any transparency since default cells that
     // overlay/overflow on hover inherit this background and need to occlude cells below
+    '--rdg-row-background-color': transparent ? theme.colors.background.canvas : theme.colors.background.primary,
     '--rdg-row-hover-background-color': transparent
       ? theme.colors.background.primary
       : theme.colors.background.secondary,
