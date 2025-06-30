@@ -78,13 +78,11 @@ export function TableNG(props: TableNGProps) {
   } = props;
 
   const theme = useTheme2();
-  console.log(theme);
   const styles = useStyles2(getGridStyles, {
     enablePagination,
     noHeader,
     transparent,
   });
-
   const panelContext = usePanelContext();
 
   const hasHeader = !noHeader;
